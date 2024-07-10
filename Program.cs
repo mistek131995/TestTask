@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using TestTask.Command.Database;
 using TestTask.Command.Database.Common;
 using TestTask.Command.Database.Repository;
+using TestTask.Common.Extension;
 
 namespace TestTask;
 
@@ -21,6 +22,8 @@ public class Program
         builder.Services.AddSwaggerGen();
 
         var app = builder.Build();
+
+        app.AddExceptionMiddlewareExtension();
 
         if (app.Environment.IsDevelopment())
         {
