@@ -15,7 +15,7 @@ namespace VpnBotApi.Common.Middleware
             {
                 if (typeof(HandledException) == ex.GetType())
                 {
-                    await HandleExceptionAsync(httpContext, ex);
+                    await HandleExceptionAsync(httpContext, (HandledException)ex);
 
                     if (((HandledException)ex).WriteToLog)
                     {
@@ -30,12 +30,12 @@ namespace VpnBotApi.Common.Middleware
             }
         }
 
-        private async Task HandleExceptionAsync(HttpContext context, Exception exception)
+        private async Task HandleExceptionAsync(HttpContext context, HandledException exception)
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.Conflict;
 
-            await context.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(new { exception.Message, exception.StackTrace }));
+            await context.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(new { exception.Messages, exception.StackTrace }));
         }
     }
 }

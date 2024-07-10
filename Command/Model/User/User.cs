@@ -15,10 +15,10 @@ public class User
         _toDoItems = toDoItems;
     }
 
-    public User(string name, List<ToDoItem> toDoItems)
+    public User(string name)
     {
         Name = name;
-        _toDoItems = toDoItems;
+        _toDoItems = new List<ToDoItem>();
     }
 
     public void AddToDoItem(ToDoItem toDoItem)

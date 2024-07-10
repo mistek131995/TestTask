@@ -1,8 +1,13 @@
+using System.Reflection;
+using FluentValidation;
+using MediatR;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using TestTask.Command.Database;
 using TestTask.Command.Database.Common;
 using TestTask.Command.Database.Repository;
 using TestTask.Common.Extension;
+using TestTask.Common.Mediatr;
 
 namespace TestTask;
 
@@ -15,6 +20,13 @@ public class Program
         var connectionString = builder.Configuration.GetConnectionString("mssql");
         builder.Services.AddDbContext<Context>(options => options.UseSqlServer(connectionString, options => options.EnableRetryOnFailure()));
         builder.Services.AddScoped<IRepositoryProvider, RepositoryProvider>();
+        builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+        builder.Services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+            cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
+        });
 
         builder.Services.AddControllers();
 
