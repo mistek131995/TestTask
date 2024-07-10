@@ -7,4 +7,6 @@ public class Priority
     [Key]
     public int Id { get; set; }
     public string Level { get; set; }
+
+    public List<ToDoItem> ToDoItems { get; set; }
 }
