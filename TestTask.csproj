@@ -23,9 +23,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Command\Service\" />
     <Folder Include="Query\" />
     <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Command\Command.csproj" />
   </ItemGroup>
 
 </Project>

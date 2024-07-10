@@ -1,3 +1,4 @@
+using Command;
 using Microsoft.EntityFrameworkCore;
 using TestTask.Command.Database;
 
@@ -9,8 +10,7 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        var connectionString = builder.Configuration.GetConnectionString("mssql");
-        builder.Services.AddDbContext<Context>(options => options.UseSqlServer(connectionString, options => options.EnableRetryOnFailure()));
+        builder.Services.AddCommand(builder.Configuration);
 
         builder.Services.AddControllers();
 
