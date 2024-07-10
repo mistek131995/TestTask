@@ -1,6 +1,7 @@
-using Command;
 using Microsoft.EntityFrameworkCore;
 using TestTask.Command.Database;
+using TestTask.Command.Database.Common;
+using TestTask.Command.Database.Repository;
 
 namespace TestTask;
 
@@ -10,7 +11,9 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        builder.Services.AddCommand(builder.Configuration);
+        var connectionString = builder.Configuration.GetConnectionString("mssql");
+        builder.Services.AddDbContext<Context>(options => options.UseSqlServer(connectionString, options => options.EnableRetryOnFailure()));
+        builder.Services.AddScoped<IRepositoryProvider, RepositoryProvider>();
 
         builder.Services.AddControllers();
 
