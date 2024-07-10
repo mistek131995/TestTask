@@ -27,7 +27,7 @@
   <ItemGroup>
     <Folder Include="Command\Service\SaveToDoItem\" />
     <Folder Include="Command\Service\DeleteToDoItem\" />
-    <Folder Include="Query\" />
+    <Folder Include="Query\Service\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
