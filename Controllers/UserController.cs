@@ -1,15 +1,18 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using AddUser = TestTask.Command.Service.AddUser;
+using UploadCommand = TestTask.Command.Service.Upload;
 
 namespace TestTask.Controllers;
 [ApiController]
-[Route("[controller]")]
+[Route("[controller]/[Action]")]
 public class UserController(IMediator mediator) : Controller
 {
     [HttpPost]
-    public async Task<JsonResult> AddUser([FromBody] AddUser.Command command)
+    public async Task<JsonResult> Upload()
     {
+        var command = new UploadCommand.Command();
+        command.FormFiles = Request.Form.Files;
+
         var result = await mediator.Send(command);
 
         return Json(result);
