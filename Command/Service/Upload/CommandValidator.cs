@@ -2,7 +2,7 @@
 
 namespace TestTask.Command.Service.Upload
 {
-    internal class CommandValidator : AbstractValidator<Command>
+    public class CommandValidator : AbstractValidator<Command>
     {
         public CommandValidator()
         {

@@ -6,11 +6,11 @@ namespace TestTask.Command.Database.Entity
     {
         [Key]
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string LocalName { get; set; }
+        public string StartName { get; set; }
         public string Directory { get; set; }
-        public int? UserId { get; set; }
+        public int UserId { get; set; }
 
-        public User User { get; set; }
         public List<OutputFile> OutputFiles { get; set; }
     }
 }
