@@ -37,7 +37,7 @@
 
   <ItemGroup>
     <Folder Include="Query\Service\" />
-    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\upload\" />
   </ItemGroup>
 
 </Project>

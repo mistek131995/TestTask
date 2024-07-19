@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using TestTask.Command.Database.Common;
+using TestTask.Command.Helper;
 using TestTask.Common.Exception;
 
 namespace TestTask.Command.Service.Upload
@@ -32,6 +33,8 @@ namespace TestTask.Command.Service.Upload
             fileStream.Read(bytes, 0, (int)file.Length);
 
             await File.WriteAllBytesAsync(filePath, bytes);
+
+            Ffmpeg.Convert(fileGuid, uploadGuid);
 
             return await repositoryProvider.InputFileRepository.SaveAsync(new Model.File.InputFile(fileGuid, file.FileName, uploadGuid, 0));
         }
