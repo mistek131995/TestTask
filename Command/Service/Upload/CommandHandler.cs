@@ -5,18 +5,18 @@ using TestTask.Common.Exception;
 
 namespace TestTask.Command.Service.Upload
 {
-    internal class CommandHandler(IRepositoryProvider repositoryProvider, IConfiguration configuration) : IRequestHandler<Command, int>
+    internal class CommandHandler(IRepositoryProvider repositoryProvider, IConfiguration configuration) : IRequestHandler<Command, string>
     {
-        public async Task<int> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<string> Handle(Command request, CancellationToken cancellationToken)
         {
             var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "upload");
 
             if (!Directory.Exists(uploadPath))
                 Directory.CreateDirectory(uploadPath);
 
-            var uploadGuid = Guid.NewGuid().ToString();
+            var directoryGuid = Guid.NewGuid().ToString();
 
-            uploadPath = Path.Combine(uploadPath, uploadGuid);
+            uploadPath = Path.Combine(uploadPath, directoryGuid);
 
             if (Directory.Exists(uploadPath))
                 throw new HandledException("Директория уже существует");
@@ -34,9 +34,9 @@ namespace TestTask.Command.Service.Upload
 
             await File.WriteAllBytesAsync(filePath, bytes);
 
-            Ffmpeg.Convert(fileGuid, uploadGuid);
+            await repositoryProvider.InputFileRepository.SaveAsync(new Model.File.InputFile(fileGuid, file.FileName, directoryGuid, 0));
 
-            return await repositoryProvider.InputFileRepository.SaveAsync(new Model.File.InputFile(fileGuid, file.FileName, uploadGuid, 0));
+            return directoryGuid;
         }
     }
 }
