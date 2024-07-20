@@ -1,9 +1,6 @@
-using System.Reflection;
 using FluentValidation;
-using MediatR;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using TestTask.Command.Database;
 using TestTask.Command.Database.Common;
 using TestTask.Command.Database.Repository;
@@ -36,6 +33,11 @@ public class Program
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        builder.WebHost.ConfigureKestrel(cfg =>
+        {
+            cfg.Limits.MaxRequestBodySize = 5368709120; //5 ца
+        });
 
         var app = builder.Build();
 
