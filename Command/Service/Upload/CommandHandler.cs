@@ -26,13 +26,10 @@ namespace TestTask.Command.Service.Upload
             var file = request.FormFiles[0];
             var fileExtension = file.FileName.Split('.').LastOrDefault();
             var fileGuid = $"{Guid.NewGuid().ToString()}.{fileExtension}";
-            var filePath = Path.Combine(uploadPath, fileGuid);
+            var filePath = Path.Combine(uploadPath, fileGuid) ?? throw new HandledException("Не удалось создать путь для сохранения файла");
 
-            var fileStream = file.OpenReadStream();
-            var bytes = new byte[file.Length];
-            fileStream.Read(bytes, 0, (int)file.Length);
-
-            await File.WriteAllBytesAsync(filePath, bytes);
+            using var fileStream = new FileStream(filePath, FileMode.OpenOrCreate);
+            file.CopyTo(fileStream);
 
             await repositoryProvider.InputFileRepository.SaveAsync(new Model.File.InputFile(fileGuid, file.FileName, directoryGuid, 0));
 
