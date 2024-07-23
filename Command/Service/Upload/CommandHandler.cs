@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using TestTask.Command.Database.Common;
-using TestTask.Command.Helper;
 using TestTask.Common.Exception;
 
 namespace TestTask.Command.Service.Upload

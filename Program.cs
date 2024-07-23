@@ -1,4 +1,5 @@
 using FluentValidation;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using TestTask.Command.Database;
@@ -33,6 +34,11 @@ public class Program
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        builder.Services.Configure<FormOptions>(cfg =>
+        {
+            cfg.MultipartBodyLengthLimit = 5368709120; //5 ца
+        });
 
         builder.WebHost.ConfigureKestrel(cfg =>
         {
